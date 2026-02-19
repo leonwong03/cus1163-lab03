@@ -119,7 +119,7 @@ int run_multiple_pairs(int num_pairs) {
         int pipe_fd[2];
         pid_t producer_pid, consumer_pid;
 
-        print("\n=== Pair %d ===\n", i + 1);
+        printf("\n=== Pair %d ===\n", i + 1);
 
         if (pipe(pipe_fd) == -1) {
 
@@ -173,6 +173,13 @@ int run_multiple_pairs(int num_pairs) {
 
     }
 
+	if (pid_count == 0) {
+
+		printf("No Child Processes To Wait For\n");
+		return 0;
+
+	}
+
     for (int i = 0; i < pid_count; i++) {
 
         int status;
@@ -181,7 +188,7 @@ int run_multiple_pairs(int num_pairs) {
         if (w == -1) {
 
             perror("waitpid");
-            return -1;
+            continue;
 
         }
 

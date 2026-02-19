@@ -21,3 +21,103 @@ If zombie process accumulated, the sys could eventually run out of process table
 Kernel tracks Parent Child relationships using process IDs (PIDs) and Parent process IDs (PPIDs). Every process knows who its parent is and the kernel uses that info to manage signals and cleanup. If a parent process dies before its Children, the kernel auto assigns the Children to a sys process (usually PID 1, such as init or systemd). That sys process will call "wait()" and clean up the Children when they exit.
 So I noticed that in Java this is MOSTLY hidden. When a Java program exits, the JVM terminates ALL its threads automatically. In C, processes are independent and the OS has to step in to stop orphaned processes from yurning into zombies. So it was interesting to see how C gave me more control BUT had more responsibility than Java. 
 
+OUTPUT:
+leonwong03@leonwong03-VMware20-1:~/cus1163-lab03$ gcc -o lab3 main.c process_manager.c
+leonwong03@leonwong03-VMware20-1:~/cus1163-lab03$ ./lab3
+Lab 3: Basic Process Management (fork and wait)
+Focus: Understanding process creation and cleanup
+
+=== Process Management Lab ===
+1. Basic producer-consumer demo
+2. Multiple producer-consumer pairs
+3. Exit
+Choose an option (1-3): 1
+
+Starting basic producer-consumer demonstration...
+
+Parent process (PID: 11429) creating children...
+Created Producer Child (PID: 11430)
+Created Consumer Child (PID: 11431)
+Producer (PID: 11430) starting...
+Producer: Sent number 1
+Consumer (PID: 11431) starting...
+Consumer: Received 1, running sum: 1
+Producer: Sent number 2
+Consumer: Received 2, running sum: 3
+Producer: Sent number 3
+Consumer: Received 3, running sum: 6
+Producer: Sent number 4
+Consumer: Received 4, running sum: 10
+Producer: Sent number 5
+Consumer: Received 5, running sum: 15
+Producer: Finished sending 5 numbers
+Consumer: Final sum: 15
+Producer Child (PID: 11430) exited with status 0
+Consumer Child (PID: 11431) exited with status 0
+
+SUCCESS: Basic producer-consumer completed!
+
+=== Process Management Lab ===
+1. Basic producer-consumer demo
+2. Multiple producer-consumer pairs
+3. Exit
+Choose an option (1-3): 2
+
+Running multiple producer-consumer pairs...
+
+Parent creating 2 producer-consumer pairs...
+
+=== Pair 1 ===
+
+=== Pair 2 ===
+Producer (PID: 11432) starting...
+Producer: Sent number 1
+
+=== Pair 2 ===
+waitpid: No child processes
+waitpid: No child processes
+Producer (PID: 11434) starting...
+Producer (PID: 11436) starting...
+Producer: Sent number 6
+waitpid: No child processes
+waitpid: No child processes
+waitpid: No child processes
+waitpid: No child processes
+
+All pairs completed successfully!
+
+SUCCESS: Multiple pairs completed!
+
+=== Process Management Lab ===
+1. Basic producer-consumer demo
+2. Multiple producer-consumer pairs
+3. Exit
+Choose an option (1-3): waitpid: No child processes
+waitpid: No child processes
+waitpid: No child processes
+
+All pairs completed successfully!
+
+SUCCESS: Multiple pairs completed!
+
+=== Process Management Lab ===
+1. Basic producer-consumer demo
+2. Multiple producer-consumer pairs
+3. Exit
+Choose an option (1-3): Child (PID: 11436) Terminated Abnormally
+Child (PID: 11432) Terminated Abnormally
+waitpid: No child processes
+3
+
+Goodbye!
+Child (PID: 11437) Exited With Status 0
+
+All pairs completed successfully!
+
+SUCCESS: Multiple pairs completed!
+
+=== Process Management Lab ===
+1. Basic producer-consumer demo
+2. Multiple producer-consumer pairs
+3. Exit
+Choose an option (1-3):     
